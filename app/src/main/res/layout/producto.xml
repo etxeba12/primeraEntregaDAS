@@ -38,7 +38,7 @@
                 android:id="@+id/imgLike"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="@drawable/corazon"
+                android:src="@drawable/baseline_favorite_24"
                 android:clickable="true"
                 android:focusable="true"/>
         </LinearLayout>

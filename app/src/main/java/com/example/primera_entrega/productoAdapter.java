@@ -49,8 +49,8 @@ public class productoAdapter extends RecyclerView.Adapter<productoAdapter.Produc
 
         holder.imgLike.setImageResource(
                 producto.liked ?
-                        R.drawable.corazonrojo :
-                        R.drawable.corazon
+                        R.drawable.baseline_favorite_24 :
+                        R.drawable.outline_favorite_24
         );
 
         holder.imgLike.setOnClickListener(v -> {

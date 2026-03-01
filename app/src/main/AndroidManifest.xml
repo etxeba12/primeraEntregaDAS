@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".Favoritos" />
+        <activity android:name=".AnadirProducto" />
     </application>
 
 </manifest>

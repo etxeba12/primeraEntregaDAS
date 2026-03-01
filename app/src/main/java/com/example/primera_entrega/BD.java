@@ -55,6 +55,7 @@ public class BD extends SQLiteOpenHelper {
 
         insertarUsuariosPrueba(sqLiteDatabase);
         insertarProductosPrueba(sqLiteDatabase);
+        insertarFavoritosPrueba(sqLiteDatabase);
     }
 
     @Override
@@ -84,6 +85,32 @@ public class BD extends SQLiteOpenHelper {
                 String imagen = cursor.getString(2);
 
                 productos.add(new Producto(imagen,precio, favorito));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return productos;
+    }
+
+    public List<Producto> listaProductosFavoritos(SQLiteDatabase db,String nombre_usuario){
+        List<Producto> productos = new ArrayList<>(); //lista donde guardaremos los productos
+
+        // para filtar por nombre_de_usuario
+        String query = "SELECT P.precio, P.imagen " +
+                "FROM Producto P " +
+                "INNER JOIN Favoritos F ON P.id_producto = F.id_producto " +
+                "INNER JOIN Usuario U ON F.id_usuario = U.id_usuario " +
+                "WHERE U.nombre_de_usuario = ?";
+
+        String[] selectionArgs = {nombre_usuario};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        if (cursor.moveToFirst()){
+            do{
+                String precio = cursor.getString(0);
+                String imagen = cursor.getString(1);
+
+                productos.add(new Producto(imagen, precio, true));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -193,6 +220,38 @@ public class BD extends SQLiteOpenHelper {
         values.put("estado", 1);
         values.put("id_vendedor", 2);
         db.insert("Producto", null, values);
+    }
+
+    public void insertarFavoritosPrueba(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+
+        // Iker tiene id_usuario = 1
+        int idIker = 1;
+
+        // Productos de otros usuarios (no los suyos)
+        // Andrea = productos 2 y 3
+        // Ander = productos 4, 5, 6, 7
+
+        // Iker añade algunos favoritos:
+
+        // Producto 2 (Virgen de Andrea)
+        values.put("id_usuario", idIker);
+        values.put("id_producto", 2);
+        db.insert("Favoritos", null, values);
+
+        values.clear();
+
+        // Producto 4 (Peluca rubia de Ander)
+        values.put("id_usuario", idIker);
+        values.put("id_producto", 4);
+        db.insert("Favoritos", null, values);
+
+        values.clear();
+
+        // Producto 6 (Chaqueta vaquera de Ander)
+        values.put("id_usuario", idIker);
+        values.put("id_producto", 6);
+        db.insert("Favoritos", null, values);
     }
 
 }

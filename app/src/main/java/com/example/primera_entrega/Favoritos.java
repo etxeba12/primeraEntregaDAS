@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class Favoritos extends AppCompatActivity{
 
     private SQLiteDatabase db;
     private String nombre_usuario = "Iker";
@@ -24,18 +24,18 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.lista_productos);
+        setContentView(R.layout.favoritos);
 
         this.deleteDatabase("Tabla");
         BD GestorDB = new BD(this, "Tabla", null, 1);
         db = GestorDB.getWritableDatabase();
 
-        // boton para ir a la pantalla de favortios del usuario
-        ImageButton btn_favoritos = findViewById(R.id.btn_favoritos);
-        btn_favoritos.setOnClickListener(new View.OnClickListener() {
+        // boton para ir a la pantalla principal del usuario
+        ImageButton btn_home = findViewById(R.id.btn_home);
+        btn_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, Favoritos.class);
+                Intent i = new Intent(Favoritos.this, MainActivity.class);
                 startActivity(i);
             }
         });
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity{
         btn_anadir_producto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, AnadirProducto.class);
+                Intent i = new Intent(Favoritos.this, AnadirProducto.class);
                 startActivity(i);
             }
         });
@@ -55,14 +55,14 @@ public class MainActivity extends AppCompatActivity{
         btn_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                Intent i = new Intent(Favoritos.this, SettingsActivity.class);
                 startActivity(i);
             }
         });
 
         int numColumnas = 2;
 
-        List<Producto> lista = GestorDB.listaProductos(db,nombre_usuario);
+        List<Producto> lista = GestorDB.listaProductosFavoritos(db,nombre_usuario);
 
         RecyclerView recycler = findViewById(R.id.recyclerProductos);
         recycler.setLayoutManager(new GridLayoutManager(this, numColumnas));
@@ -72,12 +72,4 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    public void aplicarModoOscuro(boolean activado) {
-        if (activado) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        recreate();
-    }
 }

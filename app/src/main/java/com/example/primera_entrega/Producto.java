@@ -11,14 +11,18 @@ import android.widget.TextView;
 
 public  class Producto {
 
-        int imagen;
+        String imagen;
         String precio;
-        boolean liked;
-        public Producto(int imagen, String precio) {
-            this.imagen = imagen;
-            this.precio = precio;
-            this.liked = false;
-        }
+        boolean favorito;
+    public Producto( String imagen,String precio, boolean favorito) {
+        this.precio = precio;
+        this.imagen = imagen;
+        this.favorito = favorito;
+    }
+
+    public String getPrecio() { return precio; }
+    public String getImagen() { return imagen; }
+    public boolean getFavorito() { return favorito; }
 }
 
 

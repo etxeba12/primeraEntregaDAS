@@ -44,17 +44,23 @@ public class productoAdapter extends RecyclerView.Adapter<productoAdapter.Produc
     public void onBindViewHolder(@NonNull ProductoViewHolder holder, int position) {
         Producto producto = lista.get(position);
 
-        holder.imgProducto.setImageResource(producto.imagen);
+        int imagenId = holder.itemView.getContext().getResources().getIdentifier(
+                producto.getImagen(),   // "zapatillas", "peluca", etc.
+                "drawable",             // carpeta drawable
+                holder.itemView.getContext().getPackageName()
+        );
+
+        holder.imgProducto.setImageResource(imagenId);
         holder.txtPrecio.setText(producto.precio);
 
         holder.imgLike.setImageResource(
-                producto.liked ?
+                producto.favorito ?
                         R.drawable.baseline_favorite_24 :
                         R.drawable.outline_favorite_24
         );
 
         holder.imgLike.setOnClickListener(v -> {
-            producto.liked = !producto.liked;
+            producto.favorito = !producto.favorito;
             notifyItemChanged(position);
         });
     }

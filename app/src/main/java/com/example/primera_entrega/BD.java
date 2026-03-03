@@ -12,10 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BD extends SQLiteOpenHelper {
-    public BD(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    private static BD instancia;
+
+    public static synchronized BD getInstance(Context context) {
+        if (instancia == null) {
+            instancia = new BD(context.getApplicationContext(), "Tabla", null, 2);
+        }
+        return instancia;
+    }
+    private BD(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
-
     @Override  //para activar el FOREIGN KEY
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
@@ -38,11 +45,26 @@ public class BD extends SQLiteOpenHelper {
                 "nombre_producto TEXT NOT NULL," +
                 "descripcion TEXT," +
                 "precio REAL NOT NULL," +
-                "imagen TEXT," +
-                "favorito boolean," +
+                "imagen TEXT DEFAULT 'zapatillas'," +
+                "favorito INTEGER DEFAULT 0," +
                 "estado INTEGER NOT NULL DEFAULT 1," +
                 "id_vendedor INTEGER NOT NULL," +
-                "FOREIGN KEY (id_vendedor) REFERENCES Usuario(id_usuario) ON DELETE RESTRICT" +
+                "id_categoria INTEGER NOT NULL," +
+                "FOREIGN KEY (id_vendedor) REFERENCES Usuario(id_usuario) ON DELETE RESTRICT," +
+                "FOREIGN KEY (id_categoria) REFERENCES Categoria(id_categoria) ON DELETE RESTRICT" +
+                ");");
+
+        sqLiteDatabase.execSQL("CREATE TABLE Categoria (" +
+                "id_categoria INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nombre TEXT NOT NULL UNIQUE" +
+                ");");
+
+        sqLiteDatabase.execSQL("CREATE TABLE AtributoProducto (" +
+                "id_atributo INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "id_producto INTEGER NOT NULL," +
+                "nombre_atributo TEXT NOT NULL," +
+                "valor TEXT NOT NULL," +
+                "FOREIGN KEY (id_producto) REFERENCES Producto(id_producto) ON DELETE CASCADE" +
                 ");");
 
         sqLiteDatabase.execSQL("CREATE TABLE Favoritos (" +
@@ -53,6 +75,7 @@ public class BD extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE" +
                 ");");
 
+        insertarCategorias(sqLiteDatabase);
         insertarUsuariosPrueba(sqLiteDatabase);
         insertarProductosPrueba(sqLiteDatabase);
         insertarFavoritosPrueba(sqLiteDatabase);
@@ -61,9 +84,23 @@ public class BD extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS Favoritos");
+        db.execSQL("DROP TABLE IF EXISTS AtributoProducto");
         db.execSQL("DROP TABLE IF EXISTS Producto");
+        db.execSQL("DROP TABLE IF EXISTS Categoria");
         db.execSQL("DROP TABLE IF EXISTS Usuario");
         onCreate(db);
+    }
+
+    public void insertarCategorias(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+
+        String[] categorias = {"Electrónica", "Moda", "Hogar", "Deporte", "Motor", "Otros"};
+
+        for (String categoria : categorias) {
+            values.clear();
+            values.put("nombre", categoria);
+            db.insert("Categoria", null, values);
+        }
     }
 
     public List<Producto> listaProductos(SQLiteDatabase db,String nombre_usuario){
@@ -148,80 +185,90 @@ public class BD extends SQLiteOpenHelper {
     }
 
     public void insertarProductosPrueba(SQLiteDatabase db) {
+
         ContentValues values = new ContentValues();
 
         // --------------------
-        // Producto de Iker
+        // Producto de Iker (Moda)
         // --------------------
         values.put("nombre_producto", "Zapatillas rojas");
         values.put("descripcion", "Zapatillas nuevas, talla 42");
         values.put("precio", 49.99);
-        values.put("imagen", "zapatillas"); // nombre de drawable
-        values.put("estado", 1); // 1 = en venta
-        values.put("id_vendedor", 1); // Iker
+        values.put("imagen", "zapatillas");
+        values.put("estado", 1);
+        values.put("id_vendedor", 1);
+        values.put("id_categoria", 2); // Moda
         db.insert("Producto", null, values);
 
         // --------------------
-        // Productos de Andrea
+        // Producto Andrea (Hogar)
         // --------------------
         values.clear();
         values.put("nombre_producto", "Virgen");
-        values.put("descripcion", "Figura de virgen decorativa");
+        values.put("descripcion", "Figura decorativa");
         values.put("precio", 25.50);
         values.put("imagen", "zapatillas");
         values.put("estado", 1);
-        values.put("id_vendedor", 3); // Andrea
+        values.put("id_vendedor", 3);
+        values.put("id_categoria", 3); // Hogar
         db.insert("Producto", null, values);
 
+        // --------------------
+        // Producto Andrea (Moda)
+        // --------------------
         values.clear();
         values.put("nombre_producto", "Bolso vintage");
-        values.put("descripcion", "Bolso de segunda mano, buen estado");
+        values.put("descripcion", "Bolso buen estado");
         values.put("precio", 30.00);
         values.put("imagen", "zapatillas");
         values.put("estado", 1);
-        values.put("id_vendedor", 3); // Andrea
+        values.put("id_vendedor", 3);
+        values.put("id_categoria", 2); // Moda
         db.insert("Producto", null, values);
 
         // --------------------
-        // Productos de Ander
+        // Productos Ander
         // --------------------
         values.clear();
         values.put("nombre_producto", "Peluca rubia");
-        values.put("descripcion", "Peluca sintética, casi nueva");
+        values.put("descripcion", "Peluca sintética");
         values.put("precio", 15.00);
         values.put("imagen", "zapatillas");
         values.put("estado", 1);
-        values.put("id_vendedor", 2); // Ander
+        values.put("id_vendedor", 2);
+        values.put("id_categoria", 2); // Moda
         db.insert("Producto", null, values);
 
         values.clear();
         values.put("nombre_producto", "Camiseta negra");
-        values.put("descripcion", "Camiseta talla L, usada una vez");
+        values.put("descripcion", "Talla L");
         values.put("precio", 12.00);
         values.put("imagen", "zapatillas");
         values.put("estado", 1);
         values.put("id_vendedor", 2);
+        values.put("id_categoria", 2); // Moda
         db.insert("Producto", null, values);
 
         values.clear();
         values.put("nombre_producto", "Chaqueta vaquera");
-        values.put("descripcion", "Chaqueta en perfecto estado");
+        values.put("descripcion", "Perfecto estado");
         values.put("precio", 40.00);
         values.put("imagen", "zapatillas");
         values.put("estado", 1);
         values.put("id_vendedor", 2);
+        values.put("id_categoria", 2); // Moda
         db.insert("Producto", null, values);
 
         values.clear();
         values.put("nombre_producto", "Reloj deportivo");
-        values.put("descripcion", "Reloj con cronómetro, usado");
+        values.put("descripcion", "Con cronómetro");
         values.put("precio", 20.00);
         values.put("imagen", "zapatillas");
         values.put("estado", 1);
         values.put("id_vendedor", 2);
+        values.put("id_categoria", 4); // Deporte
         db.insert("Producto", null, values);
     }
-
     public void insertarFavoritosPrueba(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
 

@@ -1,5 +1,6 @@
 package com.example.primera_entrega;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -37,9 +39,8 @@ public class AnadirProducto extends AppCompatActivity{
 
         setContentView(R.layout.anadir_producto);
 
-        this.deleteDatabase("Tabla");
-        BD GestorDB = new BD(this, "Tabla", null, 1);
-        db = GestorDB.getWritableDatabase();
+        BD gestor = BD.getInstance(this);
+        db = gestor.getWritableDatabase();
 
 
         Spinner spinnerCategoria = findViewById(R.id.spinnerCategoria);
@@ -93,6 +94,42 @@ public class AnadirProducto extends AppCompatActivity{
             }
         });
 
+        // BOTON GUARDAR PRODUCTO
+
+        Button btnPublicar = findViewById(R.id.btnPublicar);
+
+        btnPublicar.setOnClickListener(v -> {
+
+            EditText etNombre = findViewById(R.id.etNombreProducto);
+            EditText etPrecio = findViewById(R.id.etPrecio);
+            Spinner spinner = findViewById(R.id.spinnerCategoria);
+
+            String nombre = etNombre.getText().toString();
+            double precio = Double.parseDouble(etPrecio.getText().toString());
+            int idCategoria = spinner.getSelectedItemPosition();
+
+            if (idCategoria <= 0) {
+                Toast.makeText(this, "Selecciona una categoría válida", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            ContentValues values = new ContentValues();
+            values.put("nombre_producto", nombre);
+            values.put("precio", precio);
+            values.put("id_vendedor", 1); // Iker
+            values.put("id_categoria", idCategoria);
+
+            Log.d("ANDREWPIÑA",  "HE ENTRADO EN FASE 1: " + nombre + precio + idCategoria);
+
+
+            long idProducto = db.insert("Producto", null, values);
+
+            Log.d("ANDREWPIÑA",  "salida: " + idProducto);
+
+
+            guardarCamposDinamicos(idProducto);
+        });
+
         // Resto de tus botones (home, favoritos, perfil) igual
         ImageButton btn_home = findViewById(R.id.btn_home);
         btn_home.setOnClickListener(v -> {
@@ -113,7 +150,6 @@ public class AnadirProducto extends AppCompatActivity{
             startActivityForResult(intent, 1);
         });
 
-
         ImageButton btn_perfil = findViewById(R.id.btn_perfil);
         btn_perfil.setOnClickListener(v -> {
             Intent i = new Intent(AnadirProducto.this, SettingsActivity.class);
@@ -125,6 +161,30 @@ public class AnadirProducto extends AppCompatActivity{
         EditText et = new EditText(this);
         et.setHint(hint);
         layout.addView(et);
+    }
+
+    private void guardarCamposDinamicos(long idProducto) {
+
+        for (int i = 0; i < layout.getChildCount(); i++) {
+
+            View view = layout.getChildAt(i);
+
+            if (view instanceof EditText) {
+                EditText et = (EditText) view;
+
+                String nombreAtributo = et.getHint().toString();
+                String valor = et.getText().toString();
+
+                ContentValues values = new ContentValues();
+                values.put("id_producto", idProducto);
+                values.put("nombre_atributo", nombreAtributo);
+                values.put("valor", valor);
+
+                Log.d("ANDREWPIÑA",  "HE ENTRADO EN FASE 3: " + idProducto + nombreAtributo + valor);
+
+                db.insert("AtributoProducto", null, values);
+            }
+        }
     }
 
 }

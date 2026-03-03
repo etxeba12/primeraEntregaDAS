@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.lista_productos);
 
         this.deleteDatabase("Tabla");
-        BD GestorDB = new BD(this, "Tabla", null, 1);
+        BD GestorDB = BD.getInstance(this);
         db = GestorDB.getWritableDatabase();
 
         // boton para ir a la pantalla de favortios del usuario

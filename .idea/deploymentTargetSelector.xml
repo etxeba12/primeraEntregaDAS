@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-02-23T22:58:14.658580700Z">
+        <DropdownSelection timestamp="2026-03-05T21:01:57.168645700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ikeet\.android\avd\Pixel_7_Pro_API_33_-_oficial.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ikeet\.android\avd\Pixel_7.avd" />
             </handle>
           </Target>
         </DropdownSelection>

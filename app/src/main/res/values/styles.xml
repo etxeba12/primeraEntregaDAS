@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="borde_redondo">
+        <item name="android:background">@drawable/borde_redondo</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="borde_redondo_morado">
+        <item name="android:background">@drawable/borde_redondo_morado</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+</resources>

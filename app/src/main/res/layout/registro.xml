@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top|center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/Registrate"
+            style="@style/borde_redondo"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Registrate"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/NombreUsuarioText"
+            style="@style/borde_redondo_morado"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Nombre de usuario"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/NombreUsuarioMeter"
+            style="@style/borde_redondo"
+            android:layout_width="220dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/correoText"
+            style="@style/borde_redondo_morado"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Nombre de usuario"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/correoMeter"
+            style="@style/borde_redondo"
+            android:layout_width="220dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textoContraseña"
+            style="@style/borde_redondo_morado"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Contraseña"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/meterContra"
+            style="@style/borde_redondo"
+            android:layout_width="220dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textoContraseña2"
+            style="@style/borde_redondo_morado"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Repetir contraseña"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/meterContra2"
+            style="@style/borde_redondo"
+            android:layout_width="220dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:inputType="text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/LoginBoton"
+                style="@style/borde_redondo_morado"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:text="Boton login"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/Registro"
+                style="@style/borde_redondo_morado"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:text="Registrarse"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

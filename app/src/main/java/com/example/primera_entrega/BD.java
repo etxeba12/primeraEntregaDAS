@@ -20,7 +20,7 @@ public class BD extends SQLiteOpenHelper {
         }
         return instancia;
     }
-    private BD(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    BD(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
     @Override  //para activar el FOREIGN KEY
@@ -75,10 +75,6 @@ public class BD extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE" +
                 ");");
 
-        insertarCategorias(sqLiteDatabase);
-        insertarUsuariosPrueba(sqLiteDatabase);
-        insertarProductosPrueba(sqLiteDatabase);
-        insertarFavoritosPrueba(sqLiteDatabase);
     }
 
     @Override
@@ -91,16 +87,67 @@ public class BD extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertarCategorias(SQLiteDatabase db) {
-        ContentValues values = new ContentValues();
-
-        String[] categorias = {"Electrónica", "Moda", "Hogar", "Deporte", "Motor", "Otros"};
-
-        for (String categoria : categorias) {
-            values.clear();
-            values.put("nombre", categoria);
-            db.insert("Categoria", null, values);
+    public boolean comprobarExisteUsuario(SQLiteDatabase db,String usu) {
+        String query = "SELECT * FROM Usuario WHERE nombre_de_usuario = ?";
+        String[] selectionArgs = {usu};
+        boolean existe = false;
+        Cursor c = db.rawQuery(query, selectionArgs);
+        if (c.getCount() != 0) {
+            existe = true;
         }
+        c.close(); // Cerramos el cursor después de usarlo
+        return existe;
+    }
+    public String comprobarUsuario(SQLiteDatabase db,String usu) {
+        String query = "SELECT * FROM Usuario WHERE nombre_de_usuario = ?";
+        String[] selectionArgs = {usu};
+        Cursor c = db.rawQuery(query, selectionArgs);
+        if (c.getCount() != 0) {
+            if (c.moveToFirst()) {
+                c.close();
+                return usu;
+            }
+        }
+        c.close(); // Cerramos el cursor después de usarlo
+        return null;
+    }
+
+    public boolean comprobarContraseña(SQLiteDatabase db,String usu,String contra) {
+        String query = "SELECT * FROM Usuario WHERE nombre_de_usuario = ? AND contrasena = ?";
+        String[] selectionArgs = {usu,contra};
+        boolean existe = false;
+        Cursor c = db.rawQuery(query, selectionArgs);
+        if (c.getCount() != 0) {
+            existe = true;
+        }
+        c.close(); // Cerramos el cursor después de usarlo
+        return existe;
+    }
+
+    public void meterUsuario(SQLiteDatabase db,String nombreUsuario,String pCorreo, String pContraseña){
+        //Agregar un usuario a la base datos
+        ContentValues values = new ContentValues();
+        values.put("nombre_de_usuario", nombreUsuario);
+        values.put("email", pCorreo);
+        values.put("contrasena", pContraseña);
+
+        // Ejecutar la consulta parametrizada
+        db.insert("Usuario", null, values);
+    }
+
+    public boolean tablaEstaVacia(SQLiteDatabase db, String nombreTabla) {
+        boolean tablaVacia = true;
+        Cursor cursor = null;
+        String query = "SELECT COUNT(*) FROM " + nombreTabla;
+        cursor = db.rawQuery(query, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int rowCount = cursor.getInt(0);
+            // Verificar si el número de filas es cero
+            tablaVacia = (rowCount == 0);
+            cursor.close(); // Cerrar el cursor después de usarlo
+        }
+        return tablaVacia;
     }
 
     public List<Producto> listaProductos(SQLiteDatabase db,String nombre_usuario){
@@ -152,153 +199,6 @@ public class BD extends SQLiteOpenHelper {
         }
         cursor.close();
         return productos;
-    }
-
-    public void insertarUsuariosPrueba(SQLiteDatabase db) {
-        ContentValues values = new ContentValues();
-
-        // Usuario 1: Iker
-        values.put("email", "iker@gmail.com");
-        values.put("contrasena", "1234"); // en producción deberías hashear
-        values.put("nombre_de_usuario", "Iker");
-        values.put("foto_de_perfil", "perfil_iker"); // nombre de drawable o URL
-        values.put("activa", 1);
-        db.insert("Usuario", null, values);
-
-        // Usuario 2: Ander
-        values.clear();
-        values.put("email", "ander@gmail.com");
-        values.put("contrasena", "1234");
-        values.put("nombre_de_usuario", "Ander");
-        values.put("foto_de_perfil", "perfil_ander");
-        values.put("activa", 1);
-        db.insert("Usuario", null, values);
-
-        // Usuario 3: Andrea
-        values.clear();
-        values.put("email", "andrea@gmail.com");
-        values.put("contrasena", "1234");
-        values.put("nombre_de_usuario", "Andrea");
-        values.put("foto_de_perfil", "perfil_andrea");
-        values.put("activa", 1);
-        db.insert("Usuario", null, values);
-    }
-
-    public void insertarProductosPrueba(SQLiteDatabase db) {
-
-        ContentValues values = new ContentValues();
-
-        // --------------------
-        // Producto de Iker (Moda)
-        // --------------------
-        values.put("nombre_producto", "Zapatillas rojas");
-        values.put("descripcion", "Zapatillas nuevas, talla 42");
-        values.put("precio", 49.99);
-        values.put("imagen", "zapatillas");
-        values.put("estado", 1);
-        values.put("id_vendedor", 1);
-        values.put("id_categoria", 2); // Moda
-        db.insert("Producto", null, values);
-
-        // --------------------
-        // Producto Andrea (Hogar)
-        // --------------------
-        values.clear();
-        values.put("nombre_producto", "Virgen");
-        values.put("descripcion", "Figura decorativa");
-        values.put("precio", 25.50);
-        values.put("imagen", "zapatillas");
-        values.put("estado", 1);
-        values.put("id_vendedor", 3);
-        values.put("id_categoria", 3); // Hogar
-        db.insert("Producto", null, values);
-
-        // --------------------
-        // Producto Andrea (Moda)
-        // --------------------
-        values.clear();
-        values.put("nombre_producto", "Bolso vintage");
-        values.put("descripcion", "Bolso buen estado");
-        values.put("precio", 30.00);
-        values.put("imagen", "zapatillas");
-        values.put("estado", 1);
-        values.put("id_vendedor", 3);
-        values.put("id_categoria", 2); // Moda
-        db.insert("Producto", null, values);
-
-        // --------------------
-        // Productos Ander
-        // --------------------
-        values.clear();
-        values.put("nombre_producto", "Peluca rubia");
-        values.put("descripcion", "Peluca sintética");
-        values.put("precio", 15.00);
-        values.put("imagen", "zapatillas");
-        values.put("estado", 1);
-        values.put("id_vendedor", 2);
-        values.put("id_categoria", 2); // Moda
-        db.insert("Producto", null, values);
-
-        values.clear();
-        values.put("nombre_producto", "Camiseta negra");
-        values.put("descripcion", "Talla L");
-        values.put("precio", 12.00);
-        values.put("imagen", "zapatillas");
-        values.put("estado", 1);
-        values.put("id_vendedor", 2);
-        values.put("id_categoria", 2); // Moda
-        db.insert("Producto", null, values);
-
-        values.clear();
-        values.put("nombre_producto", "Chaqueta vaquera");
-        values.put("descripcion", "Perfecto estado");
-        values.put("precio", 40.00);
-        values.put("imagen", "zapatillas");
-        values.put("estado", 1);
-        values.put("id_vendedor", 2);
-        values.put("id_categoria", 2); // Moda
-        db.insert("Producto", null, values);
-
-        values.clear();
-        values.put("nombre_producto", "Reloj deportivo");
-        values.put("descripcion", "Con cronómetro");
-        values.put("precio", 20.00);
-        values.put("imagen", "zapatillas");
-        values.put("estado", 1);
-        values.put("id_vendedor", 2);
-        values.put("id_categoria", 4); // Deporte
-        db.insert("Producto", null, values);
-    }
-    public void insertarFavoritosPrueba(SQLiteDatabase db) {
-        ContentValues values = new ContentValues();
-
-        // Iker tiene id_usuario = 1
-        int idIker = 1;
-
-        // Productos de otros usuarios (no los suyos)
-        // Andrea = productos 2 y 3
-        // Ander = productos 4, 5, 6, 7
-
-        // Iker añade algunos favoritos:
-
-        // Producto 2 (Virgen de Andrea)
-        values.put("id_usuario", idIker);
-        values.put("id_producto", 2);
-        db.insert("Favoritos", null, values);
-
-        values.clear();
-
-        // Producto 4 (Peluca rubia de Ander)
-        values.put("id_usuario", idIker);
-        values.put("id_producto", 4);
-        db.insert("Favoritos", null, values);
-
-        values.clear();
-
-        // Producto 6 (Chaqueta vaquera de Ander)
-        values.put("id_usuario", idIker);
-        values.put("id_producto", 6);
-        db.insert("Favoritos", null, values);
     }
 
 }

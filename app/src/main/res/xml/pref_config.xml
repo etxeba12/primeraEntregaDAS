@@ -14,10 +14,14 @@
             app:summary="Introduce tu nombre de usuario:"
             app:dialogTitle="Introduce un nombre:"
             app:dialogIcon="@mipmap/ic_launcher" />
-        <CheckBoxPreference
-            app:key="mayor"
-            app:title="¿Eres mayor de edad?"
-            app:summary="Marca esta opción si eres mayor de edad" />
+
+        <ListPreference
+            app:key="idioma"
+            app:title="Idioma"
+            app:summary="Selecciona el idioma de la aplicación"
+            app:entries="@array/idiomas"
+            app:entryValues="@array/idiomas_values"
+            app:defaultValue="es"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

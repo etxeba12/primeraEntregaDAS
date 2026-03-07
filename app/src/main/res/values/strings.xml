@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Primera_entrega</string>
+    <string name="Logeate">Logeate</string>
+    <string name="Nombre_de_usuario">Nombre de usuario</string>
+    <string name="Contrasena">Contraseña</string>
+    <string name="btn_registrarse">Registrarse</string>
+    <string name="btn_login">Logearse</string>
+    <string name="Registrate">¡Registrate!</string>
+    <string name="correo">Correo electronico</string>
+    <string name="repetir_contra">Repetir contraseña</string>
 </resources>

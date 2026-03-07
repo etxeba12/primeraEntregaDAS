@@ -22,7 +22,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="Registrate"
+            android:text="@string/Registrate"
             android:textSize="28sp" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="Nombre de usuario"
+            android:text="@string/Nombre_de_usuario"
             android:textSize="13sp" />
 
         <EditText
@@ -54,7 +54,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="Nombre de usuario"
+            android:text="@string/correo"
             android:textSize="13sp" />
 
         <EditText
@@ -75,7 +75,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="Contraseña"
+            android:text="@string/Contrasena"
             android:textSize="17sp" />
 
         <EditText
@@ -96,7 +96,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="Repetir contraseña"
+            android:text="@string/repetir_contra"
             android:textSize="17sp" />
 
         <EditText
@@ -123,7 +123,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:text="Boton login"
+                android:text="@string/btn_login"
                 android:textSize="17sp" />
 
             <Button
@@ -134,7 +134,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:text="Registrarse"
+                android:text="@string/btn_registrarse"
                 android:textSize="17sp" />
 
         </LinearLayout>

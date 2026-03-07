@@ -18,15 +18,20 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity{
 
     private SQLiteDatabase db;
-    private String nombre_usuario = "Iker";
+    private String nombre_usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            nombre_usuario = extras.getString("nombre");
+            //idioma = extras.getString("idioma");
+        }
+
         setContentView(R.layout.lista_productos);
 
-        this.deleteDatabase("Tabla");
         BD GestorDB = BD.getInstance(this);
         db = GestorDB.getWritableDatabase();
 
@@ -36,7 +41,10 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, Favoritos.class);
+                i.putExtra("nombre",nombre_usuario);
+                //i.putExtra("idioma",idioma);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -46,7 +54,10 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, AnadirProducto.class);
+                i.putExtra("nombre",nombre_usuario);
+                //i.putExtra("idioma",idioma);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -56,7 +67,10 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                i.putExtra("nombre",nombre_usuario);
+                //i.putExtra("idioma",idioma);
                 startActivity(i);
+                finish();
             }
         });
 

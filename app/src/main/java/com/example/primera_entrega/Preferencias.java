@@ -1,10 +1,13 @@
 package com.example.primera_entrega;
 
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceFragmentCompat;
+
+import java.util.Locale;
 
 public class Preferencias extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener{
     public void onCreatePreferences(Bundle bundle, String s) {
@@ -21,6 +24,23 @@ public class Preferencias extends PreferenceFragmentCompat implements SharedPref
             }
 
             requireActivity().recreate(); // refresca la pantalla actual
+        }
+        if ("idioma".equals(key)) {
+
+            String codigoIdioma = sharedPreferences.getString(key, "es");
+
+            Locale locale = new Locale(codigoIdioma);
+            Locale.setDefault(locale);
+
+            Configuration config = new Configuration();
+            config.setLocale(locale);
+
+            requireActivity().getResources().updateConfiguration(
+                    config,
+                    requireActivity().getResources().getDisplayMetrics()
+            );
+
+            requireActivity().recreate();
         }
     }
     @Override

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Primera_entrega</string>
+    <string name="Logeate">Logeatu</string>
+    <string name="Nombre_de_usuario">Erabiltzaile izena</string>
+    <string name="Contrasena">Pasahitza</string>
+    <string name="btn_registrarse">Erregistratu</string>
+    <string name="btn_login">Logeate</string>
+    <string name="Registrate">¡Erregistratu!</string>
+    <string name="correo">Posta electronikoa</string>
+    <string name="repetir_contra">Pasahitza errepikatu</string>
+</resources>

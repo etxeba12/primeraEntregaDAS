@@ -40,6 +40,19 @@ public class BD extends SQLiteOpenHelper {
                 "    activa INTEGER NOT NULL DEFAULT 1\n" +
                 ");");
 
+        sqLiteDatabase.execSQL("CREATE TABLE Categoria (" +
+                "id_categoria INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nombre TEXT NOT NULL UNIQUE" +
+                ");");
+
+        sqLiteDatabase.execSQL("CREATE TABLE AtributoProducto (" +
+                "id_atributo INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "id_producto INTEGER NOT NULL," +
+                "nombre_atributo TEXT NOT NULL," +
+                "valor TEXT NOT NULL," +
+                "FOREIGN KEY (id_producto) REFERENCES Producto(id_producto) ON DELETE CASCADE" +
+                ");");
+
         sqLiteDatabase.execSQL("CREATE TABLE Producto (" +
                 "id_producto INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "nombre_producto TEXT NOT NULL," +
@@ -54,19 +67,6 @@ public class BD extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_categoria) REFERENCES Categoria(id_categoria) ON DELETE RESTRICT" +
                 ");");
 
-        sqLiteDatabase.execSQL("CREATE TABLE Categoria (" +
-                "id_categoria INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nombre TEXT NOT NULL UNIQUE" +
-                ");");
-
-        sqLiteDatabase.execSQL("CREATE TABLE AtributoProducto (" +
-                "id_atributo INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "id_producto INTEGER NOT NULL," +
-                "nombre_atributo TEXT NOT NULL," +
-                "valor TEXT NOT NULL," +
-                "FOREIGN KEY (id_producto) REFERENCES Producto(id_producto) ON DELETE CASCADE" +
-                ");");
-
         sqLiteDatabase.execSQL("CREATE TABLE Favoritos (" +
                 "id_producto INTEGER NOT NULL," +
                 "id_usuario INTEGER NOT NULL," +
@@ -74,6 +74,8 @@ public class BD extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_producto) REFERENCES Producto(id_producto) ON DELETE CASCADE," +
                 "FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE" +
                 ");");
+
+
 
     }
 
@@ -124,12 +126,12 @@ public class BD extends SQLiteOpenHelper {
         return existe;
     }
 
-    public void meterUsuario(SQLiteDatabase db,String nombreUsuario,String pCorreo, String pContraseña){
+    public void meterUsuario(SQLiteDatabase db,String nombreUsuario,String pCorreo, String pContrasena){
         //Agregar un usuario a la base datos
         ContentValues values = new ContentValues();
         values.put("nombre_de_usuario", nombreUsuario);
         values.put("email", pCorreo);
-        values.put("contrasena", pContraseña);
+        values.put("contrasena", pContrasena);
 
         // Ejecutar la consulta parametrizada
         db.insert("Usuario", null, values);

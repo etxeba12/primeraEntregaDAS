@@ -23,7 +23,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="Logeate"
+            android:text="@string/Logeate"
             android:textSize="26sp" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="Nombre de usuario"
+            android:text="@string/Nombre_de_usuario"
             android:textSize="13sp" />
 
         <EditText
@@ -55,7 +55,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="Contraseña"
+            android:text="@string/Contrasena"
             android:textSize="13sp" />
 
         <EditText
@@ -82,7 +82,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:text="Registro"
+                android:text="@string/btn_registrarse"
                 android:textSize="17sp" />
 
             <Button
@@ -93,7 +93,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:text="Login"
+                android:text="@string/btn_login"
                 android:textSize="17sp" />
         </LinearLayout>
 

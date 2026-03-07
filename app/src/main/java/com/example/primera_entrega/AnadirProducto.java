@@ -130,17 +130,23 @@ public class AnadirProducto extends AppCompatActivity{
             guardarCamposDinamicos(idProducto);
         });
 
-        // Resto de tus botones (home, favoritos, perfil) igual
+        // Resto de tus botones
         ImageButton btn_home = findViewById(R.id.btn_home);
         btn_home.setOnClickListener(v -> {
             Intent i = new Intent(AnadirProducto.this, MainActivity.class);
+            i.putExtra("nombre",nombre_usuario);
+            //i.putExtra("idioma",idioma);
             startActivity(i);
+            finish();
         });
 
         ImageButton btn_favoritos = findViewById(R.id.btn_favoritos);
         btn_favoritos.setOnClickListener(v -> {
             Intent i = new Intent(AnadirProducto.this, Favoritos.class);
+            i.putExtra("nombre",nombre_usuario);
+            //i.putExtra("idioma",idioma);
             startActivity(i);
+            finish();
         });
 
         Button btn_subir_producto = findViewById(R.id.btnSeleccionarImagen);
@@ -153,7 +159,10 @@ public class AnadirProducto extends AppCompatActivity{
         ImageButton btn_perfil = findViewById(R.id.btn_perfil);
         btn_perfil.setOnClickListener(v -> {
             Intent i = new Intent(AnadirProducto.this, SettingsActivity.class);
+            i.putExtra("nombre",nombre_usuario);
+            //i.putExtra("idioma",idioma);
             startActivity(i);
+            finish();
         });
     }
 

@@ -4,6 +4,7 @@ import static java.sql.Types.NULL;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,30 +18,37 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import java.util.Locale;
 
 public class Login extends AppCompatActivity {
 
     private SQLiteDatabase db;
-    private String idioma;
 
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
+        // para poner el idioma guardado en preferencias
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String idioma = prefs.getString("idioma", "es");
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            idioma = extras.getString("idioma");
-        }
-        if(idioma != null){
-          cambiarIdioma(idioma);
-        }
+        cambiarIdioma(idioma);
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        BD GestorDB = new BD(this, "Tabla", null, 1);
+        BD GestorDB = BD.getInstance(this);
         db = GestorDB.getWritableDatabase();
 
+        if(GestorDB.tablaEstaVacia(db,"Categoria")){
+            db.execSQL("INSERT INTO Categoria (nombre) VALUES " +
+                    "('Electrónica'), " +
+                    "('Moda'), " +
+                    "('Hogar'), " +
+                    "('Deporte'), " +
+                    "('Motor'), " +
+                    "('Otros')");
+        }
         if(GestorDB.tablaEstaVacia(db,"Usuario")){
             db.execSQL("INSERT INTO Usuario (email, contrasena, nombre_de_usuario, foto_de_perfil, activa) VALUES " +
                     "('iker@gmail.com','1234','Iker','perfil_iker',1), " +
@@ -63,15 +71,6 @@ public class Login extends AppCompatActivity {
                     "(1,4), " +
                     "(1,6)");
         }
-        if(GestorDB.tablaEstaVacia(db,"Categoria")){
-            db.execSQL("INSERT INTO Categoria (nombre) VALUES " +
-                    "('Electrónica'), " +
-                    "('Moda'), " +
-                    "('Hogar'), " +
-                    "('Deporte'), " +
-                    "('Motor'), " +
-                    "('Otros')");
-        }
 
         Button btLogin = findViewById(R.id.LoginBoton);
         btLogin.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +83,6 @@ public class Login extends AppCompatActivity {
                     if(GestorDB.comprobarContraseña(db,usuario.getText().toString(),contra.getText().toString())) {
                         Intent i = new Intent(Login.this, MainActivity.class);
                         i.putExtra("nombre",usuario.getText().toString());
-                        i.putExtra("idioma",idioma);
                         startActivity(i);
                         finish();
                     }
@@ -103,7 +101,6 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Login.this, Registro.class);
-                i.putExtra("idioma",idioma);
                 startActivity(i);
                 finish();
             }
@@ -114,45 +111,6 @@ public class Login extends AppCompatActivity {
         super.onDestroy();
         db.close();
     }
-
-    /*
-    //Definir el fichero xml al toolbar
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if(id == R.id.castellano){
-            idioma = "es";
-            getIntent().putExtra("idioma",idioma);
-            getIntent().putExtra("tema",tema);
-            finish();
-            startActivity(getIntent());
-            return true;
-        }
-
-        else if(id == R.id.euskera){
-            idioma = "eu";
-            getIntent().putExtra("idioma",idioma);
-            getIntent().putExtra("tema",tema);
-            finish();
-            startActivity(getIntent());
-            return true;
-        }
-        else if(id == R.id.ingles){
-            idioma = "en";
-            getIntent().putExtra("idioma",idioma);
-            getIntent().putExtra("tema",tema);
-            finish();
-            startActivity(getIntent());
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-
-    }*/
 
     protected void cambiarIdioma(String idioma){
         Locale nuevaloc = new Locale(idioma);

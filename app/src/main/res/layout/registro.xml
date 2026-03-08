@@ -18,7 +18,7 @@
             android:id="@+id/Registrate"
             style="@style/borde_redondo"
             android:layout_width="350dp"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
@@ -29,18 +29,19 @@
             android:id="@+id/NombreUsuarioText"
             style="@style/borde_redondo_morado"
             android:layout_width="250dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/Nombre_de_usuario"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/NombreUsuarioMeter"
             style="@style/borde_redondo"
             android:layout_width="220dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:ems="10"
@@ -50,18 +51,19 @@
             android:id="@+id/correoText"
             style="@style/borde_redondo_morado"
             android:layout_width="250dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/correo"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/correoMeter"
             style="@style/borde_redondo"
             android:layout_width="220dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:ems="10"
@@ -71,18 +73,19 @@
             android:id="@+id/textoContraseña"
             style="@style/borde_redondo_morado"
             android:layout_width="250dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/Contrasena"
-            android:textSize="17sp" />
+            android:textSize="13sp"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/meterContra"
             style="@style/borde_redondo"
             android:layout_width="220dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:ems="10"
@@ -92,18 +95,19 @@
             android:id="@+id/textoContraseña2"
             style="@style/borde_redondo_morado"
             android:layout_width="250dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/repetir_contra"
-            android:textSize="17sp" />
+            android:textSize="13sp"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/meterContra2"
             style="@style/borde_redondo"
             android:layout_width="220dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:ems="10"

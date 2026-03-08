@@ -3,22 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         app:key="cat_datos_personales"
-        app:title="Datos Personales">
+        app:title="@string/datos_personales">
         <SwitchPreferenceCompat
             app:key="modo_oscuro"
-            app:title="Modo oscuro"
+            app:title="@string/modo_oscuro"
             app:defaultValue="false" />
-        <EditTextPreference
-            app:key="nombre"
-            app:title="Nombre"
-            app:summary="Introduce tu nombre de usuario:"
-            app:dialogTitle="Introduce un nombre:"
-            app:dialogIcon="@mipmap/ic_launcher" />
 
         <ListPreference
             app:key="idioma"
-            app:title="Idioma"
-            app:summary="Selecciona el idioma de la aplicación"
+            app:title="@string/idioma"
+            app:summary="@string/selecciona_idioma"
             app:entries="@array/idiomas"
             app:entryValues="@array/idiomas_values"
             app:defaultValue="es"/>

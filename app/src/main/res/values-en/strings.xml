@@ -9,4 +9,23 @@
     <string name="Registrate">¡Sign up!</string>
     <string name="correo">Email</string>
     <string name="repetir_contra">Repeat password</string>
+    <string name="Buscar">Search...</string>
+    <string name="comprar">Buy</string>
+    <string name="tus_favoritos">Your favorites</string>
+    <string name="subir_producto">Upload product</string>
+    <string name="informacion_producto">Product information</string>
+    <string name="nombre">Name</string>
+    <string name="ej_iphone">FE: iphone 13</string>
+    <string name="precio">Prize (€)</string>
+    <string name="ej_precio">FE: 450</string>
+    <string name="imagen_del_producto">Product image</string>
+    <string name="seleccionar_imagen">Select image</string>
+    <string name="categoria">Category</string>
+    <string name="publicar_producto">Publish product</string>
+    <string name="datos_personales">Personal info</string>
+    <string name="modo_oscuro">Dark mode</string>
+    <string name="introduce_nombre_de_usuario">Introduce user name:</string>
+    <string name="introduce_un_nombre">Insert a username:</string>
+    <string name="idioma">Lenguage</string>
+    <string name="selecciona_idioma">"Select the application language  "</string>
 </resources>

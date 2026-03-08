@@ -35,13 +35,14 @@
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/Nombre_de_usuario"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/NombreUsuarioMeter"
             style="@style/borde_redondo"
             android:layout_width="220dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:ems="10"
@@ -56,13 +57,14 @@
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/Contrasena"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/meterContra"
             style="@style/borde_redondo"
             android:layout_width="220dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:ems="10"

@@ -2,9 +2,11 @@ package com.example.primera_entrega;
 
 import static java.sql.Types.NULL;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,6 +20,8 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import java.util.Locale;
@@ -39,6 +43,11 @@ public class Login extends AppCompatActivity {
 
         BD GestorDB = BD.getInstance(this);
         db = GestorDB.getWritableDatabase();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)!= PackageManager.PERMISSION_GRANTED) {
+            //PEDIR EL PERMISO
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 11);
+        }
 
         if(GestorDB.tablaEstaVacia(db,"Categoria")){
             db.execSQL("INSERT INTO Categoria (nombre) VALUES " +

@@ -18,6 +18,18 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background"/>
 
+        <Button
+            android:id="@+id/botonComprar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comprar"
+            android:background="@drawable/borde_redondo"
+            android:backgroundTint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:layout_alignBottom="@id/foto"
+            android:layout_alignEnd="@id/foto"
+            android:layout_margin="8dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

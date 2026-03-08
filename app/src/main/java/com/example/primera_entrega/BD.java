@@ -114,6 +114,22 @@ public class BD extends SQLiteOpenHelper {
         return null;
     }
 
+    public int obtenerIdUsuario(SQLiteDatabase db, String nombreUsuario) {
+        int id = -1;
+
+        String query = "SELECT id_usuario FROM Usuario WHERE nombre_de_usuario = ?";
+        String[] selectionArgs = {nombreUsuario};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        if (cursor.moveToFirst()) {
+            id = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return id;
+    }
+
     public boolean comprobarContraseña(SQLiteDatabase db,String usu,String contra) {
         String query = "SELECT * FROM Usuario WHERE nombre_de_usuario = ? AND contrasena = ?";
         String[] selectionArgs = {usu,contra};

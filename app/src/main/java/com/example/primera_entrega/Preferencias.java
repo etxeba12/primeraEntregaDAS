@@ -1,5 +1,6 @@
 package com.example.primera_entrega;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -40,7 +41,8 @@ public class Preferencias extends PreferenceFragmentCompat implements SharedPref
                     requireActivity().getResources().getDisplayMetrics()
             );
 
-            requireActivity().recreate();
+            requireActivity().finish();
+            startActivity(requireActivity().getIntent());
         }
     }
     @Override

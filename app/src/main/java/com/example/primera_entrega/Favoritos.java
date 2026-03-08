@@ -1,6 +1,9 @@
 package com.example.primera_entrega;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -8,12 +11,14 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Favoritos extends AppCompatActivity{
 
@@ -22,12 +27,17 @@ public class Favoritos extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // para poner el idioma guardado en preferencias
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String idioma = prefs.getString("idioma", "es");
+
+        cambiarIdioma(idioma);
+
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             nombre_usuario = extras.getString("nombre");
-            //idioma = extras.getString("idioma");
         }
 
         setContentView(R.layout.favoritos);
@@ -84,6 +94,18 @@ public class Favoritos extends AppCompatActivity{
         productoAdapter adapter = new productoAdapter(lista);
         recycler.setAdapter(adapter);
 
+    }
+
+    protected void cambiarIdioma(String idioma){
+        Locale nuevaloc = new Locale(idioma);
+        Locale.setDefault(nuevaloc);
+
+        Configuration configuration = getBaseContext().getResources().getConfiguration();
+        configuration.setLocale(nuevaloc);
+        configuration.setLayoutDirection(nuevaloc);
+
+        Context context = getBaseContext().createConfigurationContext(configuration);
+        getBaseContext().getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
     }
 
 }

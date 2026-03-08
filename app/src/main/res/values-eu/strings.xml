@@ -9,4 +9,23 @@
     <string name="Registrate">¡Erregistratu!</string>
     <string name="correo">Posta electronikoa</string>
     <string name="repetir_contra">Pasahitza errepikatu</string>
+    <string name="Buscar">Bilatu...</string>
+    <string name="comprar">Erosi</string>
+    <string name="tus_favoritos">Zure gogokoenak</string>
+    <string name="subir_producto">Produktua igo</string>
+    <string name="informacion_producto">Produktuaren informazioa</string>
+    <string name="nombre">Izena</string>
+    <string name="ej_iphone">Adb: iphone 13</string>
+    <string name="precio">Prezioa (€)</string>
+    <string name="ej_precio">Adb: 450</string>
+    <string name="imagen_del_producto">Produktu argazkia</string>
+    <string name="seleccionar_imagen">Argazkia aukeratu</string>
+    <string name="categoria">Kategoria</string>
+    <string name="publicar_producto">Produktua publikatu</string>
+    <string name="datos_personales">Datu pertsonalak</string>
+    <string name="modo_oscuro">Modu iluna</string>
+    <string name="introduce_nombre_de_usuario">Erabiltzaile izena sartu:</string>
+    <string name="introduce_un_nombre">Erabiltzaile izena sartu:</string>
+    <string name="idioma">Hizkuntza</string>
+    <string name="selecciona_idioma">Aplikazioaren hizkuntza aukeratu</string>
 </resources>

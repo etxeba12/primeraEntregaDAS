@@ -1,8 +1,16 @@
 package com.example.primera_entrega;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +25,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,17 +38,28 @@ import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AnadirProducto extends AppCompatActivity{
 
     private SQLiteDatabase db;
-    private String nombre_usuario = "Iker";
+    private String nombre_usuario;
 
     private LinearLayout layout ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // para poner el idioma guardado en preferencias
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String idioma = prefs.getString("idioma", "es");
+
+        cambiarIdioma(idioma);
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            nombre_usuario = extras.getString("nombre");
+        }
 
         setContentView(R.layout.anadir_producto);
 
@@ -116,7 +140,7 @@ public class AnadirProducto extends AppCompatActivity{
             ContentValues values = new ContentValues();
             values.put("nombre_producto", nombre);
             values.put("precio", precio);
-            values.put("id_vendedor", 1); // Iker
+            values.put("id_vendedor",gestor.obtenerIdUsuario(db,nombre_usuario));
             values.put("id_categoria", idCategoria);
 
             Log.d("ANDREWPIÑA",  "HE ENTRADO EN FASE 1: " + nombre + precio + idCategoria);
@@ -192,8 +216,47 @@ public class AnadirProducto extends AppCompatActivity{
                 Log.d("ANDREWPIÑA",  "HE ENTRADO EN FASE 3: " + idProducto + nombreAtributo + valor);
 
                 db.insert("AtributoProducto", null, values);
+
+                mostrarNotificacionProducto();
+
+                Intent in = new Intent(this, MainActivity.class);
+                in.putExtra("nombre", nombre_usuario);
+                startActivity(in);
+                finish();
+
             }
         }
+    }
+
+    protected void cambiarIdioma(String idioma){
+        Locale nuevaloc = new Locale(idioma);
+        Locale.setDefault(nuevaloc);
+
+        Configuration configuration = getBaseContext().getResources().getConfiguration();
+        configuration.setLocale(nuevaloc);
+        configuration.setLayoutDirection(nuevaloc);
+
+        Context context = getBaseContext().createConfigurationContext(configuration);
+        getBaseContext().getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+    }
+
+    private void mostrarNotificacionProducto() {
+
+        NotificationManager elManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder elBuilder = new NotificationCompat.Builder(this, "IdCanal");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel elCanal = new NotificationChannel("IdCanal", "NombreCanal",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            elManager.createNotificationChannel(elCanal);
+        }
+
+        elBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
+                .setContentTitle("Producto subido")
+                .setContentText("El producto se ha subido correctamente a la aplicación!")
+                .setVibrate(new long[]{0, 1000, 500, 1000})
+                .setAutoCancel(true);
+
+        elManager.notify(1, elBuilder.build());
     }
 
 }

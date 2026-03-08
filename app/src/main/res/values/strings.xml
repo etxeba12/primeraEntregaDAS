@@ -8,4 +8,23 @@
     <string name="Registrate">¡Registrate!</string>
     <string name="correo">Correo electronico</string>
     <string name="repetir_contra">Repetir contraseña</string>
+    <string name="Buscar">Buscar...</string>
+    <string name="comprar">Comprar</string>
+    <string name="tus_favoritos">Tus favoritos</string>
+    <string name="subir_producto">Subir producto</string>
+    <string name="informacion_producto">Información del producto</string>
+    <string name="nombre">Nombre</string>
+    <string name="ej_iphone">Ej: iPhone 13</string>
+    <string name="precio">Precio (€)</string>
+    <string name="ej_precio">Ej: 450</string>
+    <string name="imagen_del_producto">Imagen del producto</string>
+    <string name="seleccionar_imagen">Seleccionar imagen</string>
+    <string name="categoria">Categoría</string>
+    <string name="publicar_producto">Publicar producto</string>
+    <string name="datos_personales">Datos Personales</string>
+    <string name="modo_oscuro">Modo oscuro</string>
+    <string name="introduce_nombre_de_usuario">Introduce tu nombre de usuario:</string>
+    <string name="introduce_un_nombre">Introduce un nombre:</string>
+    <string name="idioma">Idioma</string>
+    <string name="selecciona_idioma">Selecciona el idioma de la aplicación</string>
 </resources>

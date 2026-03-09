@@ -1,29 +1,36 @@
 package com.example.primera_entrega;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
+public class Producto {
 
-public  class Producto {
+    private int id;
+    private String imagen;
+    private String precio;
+    private boolean favorito;
 
-        String imagen;
-        String precio;
-        boolean favorito;
-    public Producto( String imagen,String precio, boolean favorito) {
-        this.precio = precio;
+    public Producto(int id, String imagen, String precio, boolean favorito) {
+        this.id = id;
         this.imagen = imagen;
+        this.precio = precio;
         this.favorito = favorito;
     }
 
-    public String getPrecio() { return precio; }
-    public String getImagen() { return imagen; }
-    public boolean getFavorito() { return favorito; }
+    public int getId() {
+        return id;
+    }
+
+    public String getPrecio() {
+        return precio;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public boolean getFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(boolean pFavorito){
+        this.favorito = pFavorito;
+    }
 }
-
-
-

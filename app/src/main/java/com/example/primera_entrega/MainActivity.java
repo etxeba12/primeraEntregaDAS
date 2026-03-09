@@ -87,7 +87,8 @@ public class MainActivity extends AppCompatActivity{
         RecyclerView recycler = findViewById(R.id.recyclerProductos);
         recycler.setLayoutManager(new GridLayoutManager(this, numColumnas));
 
-        productoAdapter adapter = new productoAdapter(lista);
+        int idUsuario = GestorDB.obtenerIdUsuario(db, nombre_usuario);
+        productoAdapter adapter = new productoAdapter(lista, idUsuario);
         recycler.setAdapter(adapter);
 
     }

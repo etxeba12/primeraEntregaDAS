@@ -23,7 +23,7 @@ import java.util.Locale;
 public class Favoritos extends AppCompatActivity{
 
     private SQLiteDatabase db;
-    private String nombre_usuario = "Iker";
+    private String nombre_usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,6 @@ public class Favoritos extends AppCompatActivity{
             public void onClick(View v) {
                 Intent i = new Intent(Favoritos.this, MainActivity.class);
                 i.putExtra("nombre",nombre_usuario);
-                //i.putExtra("idioma",idioma);
                 startActivity(i);
                 finish();
             }
@@ -65,7 +64,6 @@ public class Favoritos extends AppCompatActivity{
             public void onClick(View v) {
                 Intent i = new Intent(Favoritos.this, AnadirProducto.class);
                 i.putExtra("nombre",nombre_usuario);
-                //i.putExtra("idioma",idioma);
                 startActivity(i);
                 finish();
             }
@@ -91,7 +89,8 @@ public class Favoritos extends AppCompatActivity{
         RecyclerView recycler = findViewById(R.id.recyclerProductos);
         recycler.setLayoutManager(new GridLayoutManager(this, numColumnas));
 
-        productoAdapter adapter = new productoAdapter(lista);
+        int idUsuario = GestorDB.obtenerIdUsuario(db, nombre_usuario);
+        productoAdapter adapter = new productoAdapter(lista, idUsuario);
         recycler.setAdapter(adapter);
 
     }

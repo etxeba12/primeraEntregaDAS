@@ -172,36 +172,56 @@ public class BD extends SQLiteOpenHelper {
         List<Producto> productos = new ArrayList<>(); //lista donde guardaremos los productos
 
         // para filtar por nombre_de_usuario
-        String query = "SELECT P.favorito, P.precio, P.imagen " +
+        String query = "SELECT P.id_producto, " +
+                "CASE WHEN F.id_producto IS NULL THEN 0 ELSE 1 END AS favorito, " +
+                "P.precio, P.imagen " +
                 "FROM Producto P " +
                 "INNER JOIN Usuario U ON P.id_vendedor = U.id_usuario " +
-                "WHERE U.nombre_de_usuario != ?";
+                "LEFT JOIN Favoritos F ON P.id_producto = F.id_producto " +
+                "AND F.id_usuario = (SELECT id_usuario FROM Usuario WHERE nombre_de_usuario = ?) " +
+                "WHERE U.nombre_de_usuario != ? AND P.estado = 1";
 
-        String[] selectionArgs = {nombre_usuario};
+        //para saber si ese producto está en favoritos del usuario actual y para no mostrar productos vendidos por ese usuario
+        String[] selectionArgs = {nombre_usuario, nombre_usuario};
         Cursor cursor = db.rawQuery(query, selectionArgs);
 
         if (cursor.moveToFirst()){
             do{
-                boolean favorito = cursor.getInt(0) == 1;
-                String precio = cursor.getString(1);
-                String imagen = cursor.getString(2);
+                int idProducto = cursor.getInt(0);
+                boolean favorito = cursor.getInt(1) == 1;
+                String precio = cursor.getString(2);
+                String imagen = cursor.getString(3);
 
-                productos.add(new Producto(imagen,precio, favorito));
+                productos.add(new Producto(idProducto, imagen, precio, favorito));
+
             } while (cursor.moveToNext());
         }
         cursor.close();
         return productos;
     }
 
+    public void comprarProducto(SQLiteDatabase db, int idProducto){
+
+        ContentValues values = new ContentValues();
+        values.put("estado", 0);
+
+        db.update(
+                "Producto",
+                values,
+                "id_producto = ?",
+                new String[]{String.valueOf(idProducto)}
+        );
+    }
+
     public List<Producto> listaProductosFavoritos(SQLiteDatabase db,String nombre_usuario){
         List<Producto> productos = new ArrayList<>(); //lista donde guardaremos los productos
 
         // para filtar por nombre_de_usuario
-        String query = "SELECT P.precio, P.imagen " +
+        String query = "SELECT P.id_producto,P.precio, P.imagen " +
                 "FROM Producto P " +
                 "INNER JOIN Favoritos F ON P.id_producto = F.id_producto " +
                 "INNER JOIN Usuario U ON F.id_usuario = U.id_usuario " +
-                "WHERE U.nombre_de_usuario = ?";
+                "WHERE U.nombre_de_usuario = ? ";
 
         String[] selectionArgs = {nombre_usuario};
 
@@ -209,14 +229,33 @@ public class BD extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()){
             do{
-                String precio = cursor.getString(0);
-                String imagen = cursor.getString(1);
+                int idProducto = cursor.getInt(0);
+                String precio = cursor.getString(1);
+                String imagen = cursor.getString(2);
 
-                productos.add(new Producto(imagen, precio, true));
+                productos.add(new Producto(idProducto,imagen, precio, true));
             } while (cursor.moveToNext());
         }
         cursor.close();
         return productos;
+    }
+
+    public void anadirFavorito(SQLiteDatabase db, int idProducto, int idUsuario){
+
+        ContentValues values = new ContentValues();
+        values.put("id_producto", idProducto);
+        values.put("id_usuario", idUsuario);
+
+        db.insert("Favoritos", null, values);
+    }
+
+    public void quitarFavorito(SQLiteDatabase db, int idProducto, int idUsuario){
+
+        db.delete(
+                "Favoritos",
+                "id_producto = ? AND id_usuario = ?",
+                new String[]{String.valueOf(idProducto), String.valueOf(idUsuario)}
+        );
     }
 
 }

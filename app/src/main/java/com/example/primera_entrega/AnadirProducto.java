@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -36,6 +38,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -45,7 +51,11 @@ public class AnadirProducto extends AppCompatActivity{
     private SQLiteDatabase db;
     private String nombre_usuario;
 
+    private ImageView imageViewProducto;
+
     private LinearLayout layout ;
+    private static final int PICK_IMAGE = 101;
+    private Uri imagenSeleccionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +155,12 @@ public class AnadirProducto extends AppCompatActivity{
 
             Log.d("ANDREWPIÑA",  "HE ENTRADO EN FASE 1: " + nombre + precio + idCategoria);
 
+            if (imagenSeleccionada != null) {
+                String rutaImagen = guardarImagenInterna(imagenSeleccionada);
+                values.put("imagen", rutaImagen);
+            } else {
+                values.put("imagen", "imagen_por_defecto"); // en caso de que no suba ninguna
+            }
 
             long idProducto = db.insert("Producto", null, values);
 
@@ -174,11 +190,7 @@ public class AnadirProducto extends AppCompatActivity{
         });
 
         Button btn_subir_producto = findViewById(R.id.btnSeleccionarImagen);
-        btn_subir_producto.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent, 1);
-        });
+        btn_subir_producto.setOnClickListener(v -> abrirGaleria());
 
         ImageButton btn_perfil = findViewById(R.id.btn_perfil);
         btn_perfil.setOnClickListener(v -> {
@@ -188,12 +200,37 @@ public class AnadirProducto extends AppCompatActivity{
             startActivity(i);
             finish();
         });
+
+        imageViewProducto = findViewById(R.id.imgPerfil);
     }
 
     private void anadirCampo(String hint) {
         EditText et = new EditText(this);
         et.setHint(hint);
         layout.addView(et);
+    }
+
+    private String guardarImagenInterna(Uri uri) {
+        try {
+            InputStream input = getContentResolver().openInputStream(uri);
+            String nombreArchivo = "producto_" + System.currentTimeMillis() + ".jpg";
+            File archivo = new File(getFilesDir(), nombreArchivo);
+            OutputStream output = new FileOutputStream(archivo);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = input.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
+
+            output.close();
+            input.close();
+            return archivo.getAbsolutePath();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void guardarCamposDinamicos(long idProducto) {
@@ -238,6 +275,21 @@ public class AnadirProducto extends AppCompatActivity{
 
         Context context = getBaseContext().createConfigurationContext(configuration);
         getBaseContext().getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+    }
+
+    private void abrirGaleria() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            imagenSeleccionada = data.getData();
+            imageViewProducto.setImageURI(imagenSeleccionada);
+        }
     }
 
     private void mostrarNotificacionProducto() {

@@ -49,6 +49,10 @@ public class Login extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 11);
         }
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+        }
+
         if(GestorDB.tablaEstaVacia(db,"Categoria")){
             db.execSQL("INSERT INTO Categoria (nombre) VALUES " +
                     "('Electrónica'), " +
@@ -66,13 +70,13 @@ public class Login extends AppCompatActivity {
         }
         if(GestorDB.tablaEstaVacia(db,"Producto")){
             db.execSQL("INSERT INTO Producto (nombre_producto, descripcion, precio, imagen, estado, id_vendedor, id_categoria) VALUES " +
-                    "('Zapatillas rojas','Zapatillas nuevas, talla 42',49.99,'zapatillas',1,1,2), " +
-                    "('Virgen','Figura decorativa',25.50,'zapatillas',1,3,3), " +
-                    "('Bolso vintage','Bolso buen estado',30.00,'zapatillas',1,3,2), " +
-                    "('Peluca rubia','Peluca sintética',15.00,'zapatillas',1,2,2), " +
-                    "('Camiseta negra','Talla L',12.00,'zapatillas',1,2,2), " +
-                    "('Chaqueta vaquera','Perfecto estado',40.00,'zapatillas',1,2,2), " +
-                    "('Reloj deportivo','Con cronómetro',20.00,'zapatillas',1,2,4)");
+                    "('Zapatillas rojas','Zapatillas nuevas, talla 42',49.99,'imagen_por_defecto',1,1,2), " +
+                    "('Virgen','Figura decorativa',25.50,'imagen_por_defecto',1,3,3), " +
+                    "('Bolso vintage','Bolso buen estado',30.00,'imagen_por_defecto',1,3,2), " +
+                    "('Peluca rubia','Peluca sintética',15.00,'imagen_por_defecto',1,2,2), " +
+                    "('Camiseta negra','Talla L',12.00,'imagen_por_defecto',1,2,2), " +
+                    "('Chaqueta vaquera','Perfecto estado',40.00,'imagen_por_defecto',1,2,2), " +
+                    "('Reloj deportivo','Con cronómetro',20.00,'imagen_por_defecto',1,2,4)");
         }
         if(GestorDB.tablaEstaVacia(db,"Favoritos")){
             db.execSQL("INSERT INTO Favoritos (id_usuario, id_producto) VALUES " +

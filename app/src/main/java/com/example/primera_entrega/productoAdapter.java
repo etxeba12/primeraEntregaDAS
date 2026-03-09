@@ -1,5 +1,6 @@
 package com.example.primera_entrega;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class productoAdapter extends RecyclerView.Adapter<productoAdapter.ProductoViewHolder>{
@@ -102,11 +106,33 @@ public class productoAdapter extends RecyclerView.Adapter<productoAdapter.Produc
             SQLiteDatabase db = gestorDB.getWritableDatabase();
 
             gestorDB.comprarProducto(db, Producto.getId());
+
+            // Guardar compra en fichero
+            guardarCompraEnFichero(v.getContext(),producto.getId(), producto.getPrecio());
+
             lista.remove(holder.getAdapterPosition());
             notifyItemRemoved(holder.getAdapterPosition());
         });
 
     }
+
+    private void guardarCompraEnFichero(Context context, int idProducto, String precio) {
+        String nombreFichero = "compras.txt";
+
+        // Hora actual
+        String hora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        String contenido = "ID: " + idProducto + ", Precio: " + precio + ", Hora: " + hora + "\n";
+
+        try {
+            FileOutputStream fos = context.openFileOutput(nombreFichero, Context.MODE_APPEND);
+            fos.write(contenido.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     @Override
